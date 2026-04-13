@@ -222,7 +222,15 @@ document.addEventListener('DOMContentLoaded', function () {
             <p class="text-on-surface-variant text-sm">2022 - Present</p>
         </div>
     </div>
-    <div class="md:col-span-5 grid grid-cols-1 gap-4">
+        <div class="md:col-span-5 grid grid-cols-1 gap-4">
+            <!-- Profile Photo with Mask and Glitch Effect -->
+            <div class="relative flex justify-center items-center mb-8">
+                <div id="photo-mask-container" class="relative w-64 h-64 rounded-full overflow-hidden group cursor-pointer">
+                    <img id="profile-photo" src="WhatsApp Image 2026-04-13 at 7.01.15 PM.jpeg" alt="Profile Photo" class="object-cover w-full h-full" style="object-position: 50% 30%;"/>
+                    <canvas id="glitch-canvas" class="absolute inset-0 w-full h-full pointer-events-none" style="display:none;"></canvas>
+                    <div id="mask-effect" class="absolute inset-0 pointer-events-none" style="mask-image: radial-gradient(circle at 50% 50%, white 100px, transparent 180px); -webkit-mask-image: radial-gradient(circle at 50% 50%, white 100px, transparent 180px);"></div>
+                </div>
+            </div>
         <div class="p-8 rounded-xl bg-surface-container-high flex flex-col justify-center border border-outline-variant/10 group hover:border-primary-container/30 transition-all">
             <span class="text-6xl font-headline font-bold text-primary-container mb-2">5+</span>
             <span class="text-on-surface-variant font-label tracking-widest uppercase text-sm">Major Projects</span>
@@ -588,17 +596,122 @@ document.addEventListener('DOMContentLoaded', function () {
 </div>
 </section>
 </main>
-<!-- Footer Shell -->
-<footer class="bg-[#0e0e0e] w-full py-12 px-8 tonal-shift bg-[#131313] flat no shadows">
-<div class="flex flex-col md:flex-row justify-between items-center w-full max-w-7xl mx-auto font-['Inter'] text-xs tracking-widest uppercase">
-<div class="text-[#f3ffca] font-bold text-lg tracking-tighter mb-8 md:mb-0">Muhammed</div>
-<div class="text-[#f3ffca]/40 text-center md:text-left mb-8 md:mb-0">© 2026 Muhammed. ALL RIGHTS RESERVED.</div>
-<div class="flex gap-8">
-<a class="text-[#f3ffca]/40 hover:text-[#ccff00] transition-colors opacity-80 hover:opacity-100" href="https://x.com/muhs2026?s=21">Twitter</a>
-    <a class="text-[#f3ffca]/40 hover:text-[#ccff00] transition-colors opacity-80 hover:opacity-100" href="https://www.linkedin.com/in/shahin20/">LinkedIn</a>
-<a class="text-[#f3ffca]/40 hover:text-[#ccff00] transition-colors opacity-80 hover:opacity-100" href="https://github.com/shahinazeez521/">GitHub</a>
-<a class="text-[#f3ffca]/40 hover:text-[#ccff00] transition-colors opacity-80 hover:opacity-100" href="https://www.instagram.com/muhamedshahin.oc?igsh=M3lncnExNWMyaHNq&utm_source=qr">Instagram</a>
-</div>
-</div>
-</footer>
-</body></html>
+<script>
+// Dynamic navbar highlight based on scroll position
+document.addEventListener('DOMContentLoaded', function () {
+    const sections = [
+        { id: 'work', nav: 'nav-work' },
+        { id: 'expertise', nav: 'nav-expertise' },
+        { id: 'about', nav: 'nav-about' },
+        { id: 'contact', nav: 'nav-contact' }
+    ];
+    const navLinks = {};
+    sections.forEach(s => navLinks[s.id] = document.getElementById(s.nav));
+    function clearHighlights() {
+        for (const s of sections) {
+            if (navLinks[s.id]) {
+                navLinks[s.id].classList.remove('text-[#ccff00]', 'border-b-2', 'border-[#ccff00]');
+                navLinks[s.id].classList.add('text-[#f3ffca]/60');
+            }
+        }
+    }
+    function onScroll() {
+        const offset = 140; // adjust for navbar height and padding
+        let current = null;
+        let minDiff = Infinity;
+        for (const s of sections) {
+            const el = document.getElementById(s.id);
+            if (el) {
+                const rect = el.getBoundingClientRect();
+                const diff = Math.abs(rect.top - offset);
+                if (rect.top - offset <= 0 && diff < minDiff) {
+                    minDiff = diff;
+                    current = s.id;
+                }
+            }
+        }
+        // If at the very top of the page (before any section), clear all highlights
+        if (window.scrollY < 50) {
+            clearHighlights();
+            return;
+        }
+        for (const s of sections) {
+            if (navLinks[s.id]) {
+                if (s.id === current) {
+                    navLinks[s.id].classList.add('text-[#ccff00]', 'border-b-2', 'border-[#ccff00]');
+                    navLinks[s.id].classList.remove('text-[#f3ffca]/60');
+                } else {
+                    navLinks[s.id].classList.remove('text-[#ccff00]', 'border-b-2', 'border-[#ccff00]');
+                    navLinks[s.id].classList.add('text-[#f3ffca]/60');
+                }
+            }
+        }
+    }
+    window.addEventListener('scroll', onScroll);
+    onScroll();
+
+    // Profile photo mask and glitch effect
+    const maskContainer = document.getElementById('photo-mask-container');
+    const maskEffect = document.getElementById('mask-effect');
+    const glitchCanvas = document.getElementById('glitch-canvas');
+    const profilePhoto = document.getElementById('profile-photo');
+    if (maskContainer && maskEffect && glitchCanvas && profilePhoto) {
+      let mouseX = 128, mouseY = 128;
+      maskContainer.addEventListener('mousemove', (e) => {
+        const rect = maskContainer.getBoundingClientRect();
+        mouseX = e.clientX - rect.left;
+        mouseY = e.clientY - rect.top;
+        maskEffect.style.maskImage = `radial-gradient(circle at ${mouseX}px ${mouseY}px, white 100px, transparent 180px)`;
+        maskEffect.style.webkitMaskImage = `radial-gradient(circle at ${mouseX}px ${mouseY}px, white 100px, transparent 180px)`;
+      });
+      maskContainer.addEventListener('mouseleave', () => {
+        maskEffect.style.maskImage = 'radial-gradient(circle at 50% 50%, white 100px, transparent 180px)';
+        maskEffect.style.webkitMaskImage = 'radial-gradient(circle at 50% 50%, white 100px, transparent 180px)';
+        glitchCanvas.style.display = 'none';
+      });
+      maskContainer.addEventListener('mouseenter', () => {
+        glitchCanvas.style.display = 'block';
+      });
+            // Color channel split glitch effect
+            function glitch() {
+                if (glitchCanvas.style.display === 'block') {
+                    const ctx = glitchCanvas.getContext('2d');
+                    ctx.clearRect(0, 0, glitchCanvas.width, glitchCanvas.height);
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.arc(mouseX, mouseY, 100, 0, 2 * Math.PI);
+                    ctx.clip();
+                    // Draw base image
+                    ctx.globalAlpha = 1;
+                    ctx.drawImage(profilePhoto, 0, 0, glitchCanvas.width, glitchCanvas.height);
+                    // RGB split
+                    for (let i = 0; i < 3; i++) {
+                        const dx = (Math.random() - 0.5) * 10;
+                        const dy = (Math.random() - 0.5) * 10;
+                        ctx.globalAlpha = 0.5;
+                        ctx.globalCompositeOperation = ['lighter','screen','color-dodge'][i];
+                        ctx.filter = [
+                            'drop-shadow(2px 0 0 #f00)',
+                            'drop-shadow(-2px 0 0 #0ff)',
+                            'drop-shadow(0 2px 0 #0f0)'
+                        ][i];
+                        ctx.drawImage(profilePhoto, dx, dy, glitchCanvas.width, glitchCanvas.height);
+                    }
+                    ctx.globalAlpha = 1;
+                    ctx.globalCompositeOperation = 'source-over';
+                    ctx.filter = 'none';
+                    ctx.restore();
+                }
+                requestAnimationFrame(glitch);
+            }
+      // Set canvas size and start animation
+      function resizeCanvas() {
+        glitchCanvas.width = maskContainer.offsetWidth;
+        glitchCanvas.height = maskContainer.offsetHeight;
+      }
+      window.addEventListener('resize', resizeCanvas);
+      resizeCanvas();
+      glitch();
+    }
+});
+</script>
