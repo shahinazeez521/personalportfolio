@@ -7,6 +7,7 @@
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
 <script id="tailwind-config">
       tailwind.config = {
         darkMode: "class",
@@ -102,22 +103,84 @@
         .glow-icon {
             box-shadow: 0 0 20px rgba(202, 253, 0, 0.2);
         }
+        .video-bg-container {
+            position: relative;
+            overflow: hidden;
+        }
+        .video-bg-container video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.5;
+            z-index: 1;
+        }
+        .video-gradient-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, transparent, #0e0e0e);
+            z-index: 2;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 3;
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes fadeInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+        .animate-fade-in-left {
+            animation: fadeInLeft 0.8s ease-out forwards;
+        }
+        .tech-specs-item {
+            transition: all 0.3s ease;
+        }
+        .tech-specs-item:hover span:first-child {
+            color: #cafd00;
+        }
+        .icon-button {
+            transition: all 0.3s ease;
+        }
+        .icon-button:hover {
+            border-color: rgba(255, 107, 0, 0.5);
+            transform: scale(1.1);
+        }
     </style>
 </head>
 <body class="antialiased selection:bg-primary-container selection:text-on-primary-container">
 <!-- TopAppBar Navigation Shell -->
-<nav class="bg-[#0e0e0e]/80 backdrop-blur-xl font-['Space_Grotesk'] tracking-tight fixed top-0 w-full z-50 border-b border-[#cafd00]/15 shadow-[0_40px_40px_-15px_rgba(14,14,14,0.06)]">
-<div class="flex justify-between items-center px-8 py-4 max-w-full mx-auto">
-    <div class="text-2xl font-bold tracking-tighter text-[#f3ffca]">Muhammed Abdul Azeez</div>
-    <div class="hidden md:flex items-center space-x-10" id="navbar-links">
-        <a class="nav-link text-[#f3ffca]/60 hover:text-[#ccff00] transition-colors pb-1" href="#work" id="nav-work">Work</a>
-        <a class="nav-link text-[#f3ffca]/60 hover:text-[#ccff00] transition-colors pb-1" href="#expertise" id="nav-expertise">Expertise</a>
-        <a class="nav-link text-[#f3ffca]/60 hover:text-[#ccff00] transition-colors pb-1" href="#about" id="nav-about">About</a>
-        <a class="nav-link text-[#f3ffca]/60 hover:text-[#ccff00] transition-colors pb-1" href="#contact" id="nav-contact">Contact</a>
+<nav class="bg-[#0e0e0e]/95 backdrop-blur-xl font-['Space_Grotesk'] tracking-tight fixed top-0 w-full z-50 border-b border-[#cafd00]/15">
+<div class="flex justify-between items-center px-4 sm:px-6 md:px-8 py-3 sm:py-4 w-full">
+    <div class="text-lg sm:text-2xl font-bold tracking-tighter text-[#f3ffca] whitespace-nowrap truncate">Muhammed</div>
+    <div class="hidden md:flex items-center space-x-8 lg:space-x-10 flex-1 justify-center" id="navbar-links">
+        <a class="nav-link text-[#f3ffca]/60 hover:text-[#ccff00] transition-colors pb-1 text-sm" href="#work" id="nav-work">Work</a>
+        <a class="nav-link text-[#f3ffca]/60 hover:text-[#ccff00] transition-colors pb-1 text-sm" href="#expertise" id="nav-expertise">Expertise</a>
+        <a class="nav-link text-[#f3ffca]/60 hover:text-[#ccff00] transition-colors pb-1 text-sm" href="#about" id="nav-about">About</a>
+        <a class="nav-link text-[#f3ffca]/60 hover:text-[#ccff00] transition-colors pb-1 text-sm" href="#contact" id="nav-contact">Contact</a>
     </div>
-    <a href="https://linkedin.com/in/shahin20" target="_blank" rel="noopener" class="bg-primary-container text-on-primary-container px-6 py-2 rounded-md font-bold hover:bg-[#cafd00]/90 transition-all active:scale-95 inline-block text-center">Connect</a>
+    <a href="https://linkedin.com/in/shahin20" target="_blank" rel="noopener" class="bg-primary-container text-on-primary-container px-3 sm:px-6 py-1.5 sm:py-2 rounded-md font-bold hover:bg-[#cafd00]/90 transition-all active:scale-95 inline-block text-center whitespace-nowrap text-xs sm:text-sm">Connect</a>
 </div>
-</nav>
 <script>
 // Dynamic navbar highlight based on scroll position
 document.addEventListener('DOMContentLoaded', function () {
@@ -174,30 +237,59 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 </nav>
-<main class="pt-24">
-<!-- Hero Section -->
-<section class="relative min-h-[921px] flex flex-col items-center justify-center px-6 overflow-hidden hero-glow">
-<div class="max-w-7xl mx-auto text-center z-10">
-<span class="inline-block px-4 py-1.5 rounded-full bg-surface-container-highest text-primary-container text-xs font-label uppercase tracking-widest mb-8 border border-outline-variant/15">Available for Innovation</span>
-<h1 class="font-headline text-5xl md:text-8xl font-bold tracking-tighter leading-[0.9] text-on-surface mb-8">
-                    Building the Future <br/> with <span class="text-primary-container">Artificial Intelligence</span>
-</h1>
-<p class="font-body text-on-surface-variant text-lg md:text-xl max-w-2xl mx-auto mb-12">
-                    Architecting high-performance neural networks and data-driven systems to bridge the gap between complex algorithms and human intuition.
-                </p>
-<div class="flex flex-col sm:flex-row gap-4 justify-center">
-<div class="flex flex-col gap-4 w-full max-w-xs mx-auto sm:flex-row sm:gap-4 sm:justify-center">
-    <a href="#work" class="bg-primary-container text-on-primary-container px-10 py-4 rounded-md font-bold text-lg hover:shadow-[0_0_20px_rgba(202,253,0,0.3)] transition-all active:scale-95 flex items-center justify-center gap-2 w-full sm:w-auto">
-        View Projects <span class="material-symbols-outlined">arrow_forward</span>
-    </a>
-    <a href="#contact" class="border border-outline-variant/30 text-on-surface px-10 py-4 rounded-md font-bold text-lg hover:bg-surface-container-low transition-all active:scale-95 flex items-center justify-center gap-2 w-full sm:w-auto">
-        Get In Touch
-    </a>
-</div>
-</div>
-<!-- Background Decoration -->
-<div class="absolute -bottom-24 -right-24 w-96 h-96 bg-primary-container/5 rounded-full blur-[120px]"></div>
-<div class="absolute -top-24 -left-24 w-96 h-96 bg-primary-container/5 rounded-full blur-[120px]"></div>
+<main class="relative">
+<!-- Hero Section with Video Background -->
+<section class="relative w-screen min-h-screen video-bg-container overflow-hidden pt-12 sm:pt-16 md:pt-20 lg:pt-24">
+    <!-- Video Background -->
+    <video 
+        autoplay 
+        loop 
+        muted 
+        playsinline
+        poster="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1920 1080'%3E%3Crect fill='%230e0e0e' width='1920' height='1080'/%3E%3C/svg%3E"
+        class="absolute w-full h-full object-cover"
+    >
+        <source src="0416.mov" type="video/quicktime" />
+        <source src="0416.mov" type="video/mp4" />
+    </video>
+    <div class="video-gradient-overlay"></div>
+
+    <!-- Hero Content -->
+    <div class="hero-content relative z-10 flex flex-col justify-center items-center h-full px-4 sm:px-6 md:px-8 lg:px-12 max-w-7xl mx-auto w-full">
+        
+        <!-- Top Section -->
+        <div class="flex flex-col items-center text-center w-full py-12 sm:py-16 md:py-20 animate-fade-in-left">
+            <!-- Left: Main Title and Description -->
+            <div class="max-w-2xl animate-fade-in-left">
+                <h1 class="font-headline text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-tight sm:leading-[0.9] md:leading-[0.85] mb-4 sm:mb-6 md:mb-8 uppercase">
+                     <span class="text-primary-container block sm:inline">//</span><br />
+                    BUILDING THE FUTURE WITH ARTIFICIAL INTELLIGENCE<br />
+                    
+                </h1>
+                
+            
+                
+                <!-- Icon Buttons -->
+                <div class="flex gap-3 sm:gap-4 justify-center">
+                    <div class="icon-button w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full border border-white/20 flex items-center justify-center cursor-pointer">
+                        <span class="material-symbols-outlined text-white/80 text-base sm:text-lg">settings</span>
+                    </div>
+                    <div class="icon-button w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full border border-white/20 flex items-center justify-center cursor-pointer">
+                        <span class="material-symbols-outlined text-white/80 text-base sm:text-lg">expand</span>
+                    </div>
+                    <div class="icon-button w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full border border-white/20 flex items-center justify-center cursor-pointer">
+                        <span class="material-symbols-outlined text-white/80 text-base sm:text-lg">bolt</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Decorative Background Elements -->
+    <div class="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden z-0">
+        <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary-container/5 blur-[120px] rounded-full" />
+        <div class="absolute bottom-[-10%] right-[-10%] w-[30%] h-[30%] bg-primary-container/5 blur-[100px] rounded-full" />
+    </div>
 </section>
 
 <!-- About Section -->
